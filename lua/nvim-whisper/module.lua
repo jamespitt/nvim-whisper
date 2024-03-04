@@ -23,7 +23,9 @@ end
 
 -- Setup subprocess
 local function setupSubprocess()
-  local lsp_command = "/home/james/src/whisper.cpp/lsp"
+  local lsp_command = {"/home/james/src/whisper.cpp/lsp",
+                        "-m","models/ggml-medium.en.bin",
+                        "-mt","128"}
   local lsp_opts = {
     cwd = "/home/james/src/whisper.cpp",
     on_stdout = function(job_id, data, event)
@@ -58,7 +60,7 @@ local function setupSubprocess()
     stdout_buffered = false,
     stderr_buffered = false
   }
-  local job_id = vim.fn.jobstart({lsp_command}, lsp_opts)
+  local job_id = vim.fn.jobstart(lsp_command, lsp_opts)
   return job_id
 end
 
