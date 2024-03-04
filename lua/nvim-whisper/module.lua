@@ -29,7 +29,7 @@ local function setupSubprocess()
         end
       end
     end,
-    on_sterr = function(job_id, data, event)
+    on_stderr = function(job_id, data, event)
       if data then
         print("Error:", table.concat(data, "\n"))
       end
