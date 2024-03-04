@@ -34,9 +34,9 @@ local function setupSubprocess()
         print("Error:", table.concat(data, "\n"))
       end
     end,
-    on_exit = function(job_id, exit_code, event)
-      print("Subprocess terminated with exit code", exit_code)
-    end,
+    --on_exit = function(job_id, exit_code, event)
+    --  print("Subprocess terminated with exit code", exit_code)
+    --end,
     stdout_buffered = true,
     stderr_buffered = true
   }
