@@ -16,6 +16,11 @@ end
 local message = createMessage()
 local job_id
 
+local function trim(s)
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+
 -- Setup subprocess
 local function setupSubprocess()
   local lsp_command = "/home/james/src/whisper.cpp/lsp"
@@ -26,13 +31,13 @@ local function setupSubprocess()
       -- vim.api.nvim_put(data, "l", true, true)
       for _, response_str in ipairs(data) do
         print("local response " .. response_str)
-        vim.api.nvim_put({response_str}, "l", false, true)
+        -- vim.api.nvim_put({response_str}, "l", false, true)
         if response_str:sub(1, 1) == "{" then
           local response_json = vim.fn.json_decode(response_str)
           local result = response_json.result and response_json.result.transcription
           if result then
             print("result back " .. result)
-            vim.api.nvim_put({result}, "l", false, true)
+            vim.api.nvim_put({trim(result)}, "l", false, true)
           end
         end
       end
