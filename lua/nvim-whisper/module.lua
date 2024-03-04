@@ -13,6 +13,9 @@ local function createMessage()
   return message
 end
 
+local message = createMessage()
+local job_id
+
 -- Setup subprocess
 local function setupSubprocess()
   local lsp_command = "/home/james/src/whisper.cpp/lsp"
@@ -32,11 +35,15 @@ local function setupSubprocess()
           end
         end
       end
+      vim.fn.chansend(job_id, message)
     end,
     on_stderr = function(job_id, data, event)
       if data then
-        vim.api.nvim_put({ "error"  }, "l", true, true)
-        vim.api.nvim_put(data, "l", true, true)
+        for _, response_str in ipairs(data) do
+          print("error " .. response_str)
+        end
+        -- vim.api.nvim_put({ "error"  }, "l", true, true)
+        -- vim.api.nvim_put(data, "l", true, true)
       end
     end,
     on_exit = function(job_id, exit_code, event)
@@ -57,19 +64,11 @@ local function splitByNewlines(inputstr)
   return t
 end
 
--- Write to subprocess
-local function writeToSubprocess(job_id, message)
-  vim.fn.chansend(job_id, message)
-end
-
-local job_id
-
 -- Main function
 local function startProcess()
   job_id = setupSubprocess()
-  local message = createMessage()
   vim.api.nvim_put(splitByNewlines(message), "l", true, true)
-  writeToSubprocess(job_id, message)
+  vim.fn.chansend(job_id, message)
 end
 
 ---@class CustomModule
