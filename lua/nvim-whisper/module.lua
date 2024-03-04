@@ -29,6 +29,11 @@ local function setupSubprocess()
         end
       end
     end,
+    on_sterr = function(job_id, data, event)
+      if data then
+        print("error back " .. data)
+      end
+    end,
     on_exit = function(job_id, exit_code, event)
       print("Subprocess terminated with exit code", exit_code)
     end,
