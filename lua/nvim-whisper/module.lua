@@ -26,17 +26,19 @@ local function setupSubprocess()
         local result = response_json.result and response_json.result.transcription
         if result then
           print("result back " .. result)
+          vim.api.nvim_put({result}, "l", true, true)
         end
       end
     end,
     on_stderr = function(job_id, data, event)
       if data then
-        print("Error:", table.concat(data, "\n"))
+        vim.api.nvim_put({ "error"  }, "l", true, true)
+        vim.api.nvim_put({ table.concat(data, "\n") }, "l", true, true)
       end
     end,
-    --on_exit = function(job_id, exit_code, event)
-    --  print("Subprocess terminated with exit code", exit_code)
-    --end,
+    on_exit = function(job_id, exit_code, event)
+      print("Subprocess terminated with exit code", exit_code)
+    end,
     stdout_buffered = true,
     stderr_buffered = true
   }
