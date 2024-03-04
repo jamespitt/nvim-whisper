@@ -58,6 +58,7 @@ local job_id
 local function startProcess()
   job_id = setupSubprocess()
   local message = createMessage()
+  vim.api.nvim_put(message, "l", true, true)
   writeToSubprocess(job_id, message)
 end
 
