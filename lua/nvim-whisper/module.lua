@@ -31,7 +31,7 @@ local function setupSubprocess()
     end,
     on_sterr = function(job_id, data, event)
       if data then
-        print("error back " .. data)
+        print("Error:", table.concat(data, "\n"))
       end
     end,
     on_exit = function(job_id, exit_code, event)
