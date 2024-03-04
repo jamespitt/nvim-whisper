@@ -4,7 +4,7 @@ local function createMessage()
     jsonrpc = "2.0",
     id = 1,
     method = "unguided",
-    params = {}
+    params = {dummy = 'nil'}
   }
   local request_str = vim.fn.json_encode(request)
   local content_length = #request_str
