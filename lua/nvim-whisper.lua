@@ -21,7 +21,7 @@ M.setup = function(args)
 end
 
 M.start = function()
-  return module.start_transcription(M.config.opt)
+  return module.start_transcription(M.config.lsp)
 end
 
 return M
