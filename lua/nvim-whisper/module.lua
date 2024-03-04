@@ -67,7 +67,7 @@ end
 -- Main function
 local function startProcess()
   job_id = setupSubprocess()
-  vim.api.nvim_put(splitByNewlines(message), "l", true, true)
+  -- vim.api.nvim_put(splitByNewlines(message), "l", true, true)
   vim.fn.chansend(job_id, message)
 end
 
