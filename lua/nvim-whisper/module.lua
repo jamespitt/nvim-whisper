@@ -64,7 +64,7 @@ local M = {}
 
 ---@return string
 M.start_transcription = function(lsp)
-  vim.defer_fn(startProcess()
+  startProcess()
 end
 
 return M
