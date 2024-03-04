@@ -46,6 +46,13 @@ local function setupSubprocess()
   return job_id
 end
 
+local function splitByNewlines(inputstr)
+  local t = {}
+  for str in string.gmatch(inputstr, "([^\n]+)") do
+      table.insert(t, str)
+  end
+  return t
+end
 
 -- Write to subprocess
 local function writeToSubprocess(job_id, message)
@@ -58,7 +65,7 @@ local job_id
 local function startProcess()
   job_id = setupSubprocess()
   local message = createMessage()
-  vim.api.nvim_put(message, "l", true, true)
+  vim.api.nvim_put(splitByNewlines(message), "l", true, true)
   writeToSubprocess(job_id, message)
 end
 
