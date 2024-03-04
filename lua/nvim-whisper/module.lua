@@ -20,9 +20,9 @@ local function setupSubprocess()
     cwd = "/home/james/src/whisper.cpp",
     on_stdout = function(job_id, data, event)
       -- Process stdout data here
-      vim.api.nvim_put(data, "l", true, true)
+      -- vim.api.nvim_put(data, "l", true, true)
       for _, response_str in ipairs(data) do
-        print("local response " .. response_str)
+        -- print("local response " .. response_str)
         if response_str:sub(1, 1) == "{" then
           local response_json = vim.fn.json_decode(response_str)
           local result = response_json.result and response_json.result.transcription
