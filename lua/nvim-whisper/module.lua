@@ -31,7 +31,7 @@ local function setupSubprocess()
           local result = response_json.result and response_json.result.transcription
           if result then
             print("result back " .. result)
-            vim.api.nvim_put({'result', result}, "l", true, true)
+            vim.api.nvim_put({result}, "l", true, true)
           end
         end
       end
