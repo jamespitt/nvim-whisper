@@ -4,10 +4,10 @@ local module = require("nvim-whisper.module")
 ---@class Config
 ---@field opt string Your config option
 local config = {
-  opt = "Hello!",
+  lsp = "/home/james/src/whisper.cpp/lsp"
 }
 
----@class MyModule
+---@class NvimWhisper
 local M = {}
 
 ---@type Config
@@ -20,8 +20,8 @@ M.setup = function(args)
   M.config = vim.tbl_deep_extend("force", M.config, args or {})
 end
 
-M.hello = function()
-  return module.my_first_function(M.config.opt)
+M.start = function()
+  return module.start_transcription(M.config.opt)
 end
 
 return M

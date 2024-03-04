@@ -2,7 +2,7 @@
 local M = {}
 
 ---@return string
-M.my_first_function = function(greeting)
+M.start_transcription = function(greeting)
   vim.api.nvim_echo({{"Variable value: " .. greeting,}}, false, {})
   return greeting
 end
