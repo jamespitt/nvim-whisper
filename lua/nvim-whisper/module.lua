@@ -39,8 +39,8 @@ local function setupSubprocess()
     on_exit = function(job_id, exit_code, event)
       print("Subprocess terminated with exit code", exit_code)
     end,
-    stdout_buffered = true,
-    stderr_buffered = true
+    stdout_buffered = false,
+    stderr_buffered = false
   }
   local job_id = vim.fn.jobstart({lsp_command}, lsp_opts)
   return job_id
