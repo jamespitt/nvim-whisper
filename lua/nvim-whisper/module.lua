@@ -33,7 +33,7 @@ local function setupSubprocess()
     on_stderr = function(job_id, data, event)
       if data then
         vim.api.nvim_put({ "error"  }, "l", true, true)
-        vim.api.nvim_put({ table.concat(data, "\n") }, "l", true, true)
+        vim.api.nvim_put({ data }, "l", true, true)
       end
     end,
     on_exit = function(job_id, exit_code, event)
