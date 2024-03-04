@@ -50,10 +50,11 @@ local function writeToSubprocess(job_id, message)
   vim.fn.chansend(job_id, message)
 end
 
+local job_id
 
 -- Main function
 local function startProcess()
-  local job_id = setupSubprocess()
+  job_id = setupSubprocess()
   local message = createMessage()
   writeToSubprocess(job_id, message)
 end
@@ -63,7 +64,7 @@ local M = {}
 
 ---@return string
 M.start_transcription = function(lsp)
-  startProcess()
+  vim.defer_fn(startProcess()
 end
 
 return M
