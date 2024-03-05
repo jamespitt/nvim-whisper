@@ -23,9 +23,9 @@ end
 
 -- Setup subprocess
 local function setupSubprocess()
-  local lsp_command = {"/home/james/src/whisper.cpp/lsp",
-                        "-m","models/ggml-medium.en.bin",
-                        "-mt","128"}
+  local lsp_command = {"/home/james/src/whisper.cpp/lsp",}
+                        -- "-m","models/ggml-medium.en.bin",}
+                        -- "-mt","128"}
   local lsp_opts = {
     cwd = "/home/james/src/whisper.cpp",
     on_stdout = function(job_id, data, event)
