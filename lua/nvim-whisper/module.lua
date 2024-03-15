@@ -57,13 +57,11 @@ local function setupSubprocess()
     on_stdout = function(job_id, data, event)
       -- Process stdout data here
       vim.fn.chansend(job_id, message)
-      if data then
-        logger("stdout", data)
-      end
       logger("sent", message)
       -- vim.api.nvim_put(data, "l", true, true)
       for _, response_str in ipairs(data) do
         print("local response " .. response_str)
+        logger("stdout", response_str)
         -- vim.api.nvim_put({response_str}, "l", false, true)
         if response_str:sub(1, 1) == "{" then
           local response_json = vim.fn.json_decode(response_str)
@@ -77,9 +75,9 @@ local function setupSubprocess()
     end,
     on_stderr = function(job_id, data, event)
       if data then
-        logger("error", data)
         for _, response_str in ipairs(data) do
           print("error " .. response_str .. '\n')
+          logger("error", response_str)
         end
         -- vim.api.nvim_put({ "error"  }, "l", true, true)
         -- vim.api.nvim_put(data, "l", true, true)
