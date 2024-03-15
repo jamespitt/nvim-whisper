@@ -1,3 +1,5 @@
+local log_file = io.open("/tmp/nvim_log.log", "a")
+
 -- Create a message
 local function createMessage()
   local request = {
@@ -30,6 +32,10 @@ local function setupSubprocess()
     cwd = "/home/james/src/whisper.cpp",
     on_stdout = function(job_id, data, event)
       -- Process stdout data here
+      log_file:write("got" .. data .. '\n')
+      vim.fn.chansend(job_id, message)
+      log_file:write("sent" .. message .. '\n')
+      log_file:flush()
       -- vim.api.nvim_put(data, "l", true, true)
       for _, response_str in ipairs(data) do
         print("local response " .. response_str)
@@ -43,12 +49,13 @@ local function setupSubprocess()
           end
         end
       end
-      vim.fn.chansend(job_id, message)
     end,
     on_stderr = function(job_id, data, event)
       if data then
+        log_file:write("error" .. data)
+        log_file:flush()
         for _, response_str in ipairs(data) do
-          print("error " .. response_str)
+          print("error " .. response_str .. '\n')
         end
         -- vim.api.nvim_put({ "error"  }, "l", true, true)
         -- vim.api.nvim_put(data, "l", true, true)
@@ -77,6 +84,8 @@ local function startProcess()
   job_id = setupSubprocess()
   -- vim.api.nvim_put(splitByNewlines(message), "l", true, true)
   vim.fn.chansend(job_id, message)
+  log_file:write("sent" .. message .. '\n')
+  log_file:flush()
 end
 
 ---@class CustomModule
