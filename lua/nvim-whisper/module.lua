@@ -1,4 +1,3 @@
-local log_file = io.open("/tmp/nvim_log.log", "a")
 
 -- Create a message
 local function createMessage()
@@ -22,6 +21,20 @@ local function trim(s)
   return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
+local log_file
+
+local function logger(log_type, log_message)
+  if message == nil then
+    return
+  end
+  if log_file == nil then
+    log_file = io.open("/tmp/nvim_log.log", "a")
+  end
+  local current_time = os.date("%Y-%m-%d %H:%M:%S")
+  log_file:write(current_time .. " - " .. log_type .. " .. " .. log_message .. "\n")
+  log_file:flush()
+end
+
 
 -- Setup subprocess
 local function setupSubprocess()
@@ -34,10 +47,9 @@ local function setupSubprocess()
       -- Process stdout data here
       vim.fn.chansend(job_id, message)
       if data then
-        log_file:write("got" .. data .. '\n')
-        log_file:write("sent" .. message .. '\n')
-        log_file:flush()
+        logger("stdout", data)
       end
+      logger("sent", message)
       -- vim.api.nvim_put(data, "l", true, true)
       for _, response_str in ipairs(data) do
         print("local response " .. response_str)
@@ -54,8 +66,7 @@ local function setupSubprocess()
     end,
     on_stderr = function(job_id, data, event)
       if data then
-        log_file:write("error" .. data)
-        log_file:flush()
+        logger("error", data)
         for _, response_str in ipairs(data) do
           print("error " .. response_str .. '\n')
         end
@@ -86,8 +97,7 @@ local function startProcess()
   job_id = setupSubprocess()
   -- vim.api.nvim_put(splitByNewlines(message), "l", true, true)
   vim.fn.chansend(job_id, message)
-  log_file:write("sent" .. message .. '\n')
-  log_file:flush()
+  logger("sent", message)
 end
 
 ---@class CustomModule
