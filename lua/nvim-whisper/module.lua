@@ -28,11 +28,22 @@ local function logger(log_type, log_message)
     return
   end
   if log_file == nil then
-    log_file = io.open("/tmp/nvim_log.log", "a")
+    local ok, err = pcall(function()
+      log_file = io.open("/tmp/nvim_log.log", "a")
+    end)
+    if not ok then
+      print("Could not open log file: " .. err)
+      return
+    end
   end
   local current_time = os.date("%Y-%m-%d %H:%M:%S")
-  log_file:write(current_time .. " - " .. log_type .. " .. " .. log_message .. "\n")
-  log_file:flush()
+  local ok, err = pcall(function()
+    log_file:write(current_time .. " - " .. log_type .. " .. " .. log_message .. "\n")
+    log_file:flush()
+  end)
+  if not ok then
+    print("Could not write to log file: " .. err)
+  end
 end
 
 
