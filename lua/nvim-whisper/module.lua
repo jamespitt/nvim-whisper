@@ -32,10 +32,12 @@ local function setupSubprocess()
     cwd = "/home/james/src/whisper.cpp",
     on_stdout = function(job_id, data, event)
       -- Process stdout data here
-      log_file:write("got" .. data .. '\n')
       vim.fn.chansend(job_id, message)
-      log_file:write("sent" .. message .. '\n')
-      log_file:flush()
+      if data then
+        log_file:write("got" .. data .. '\n')
+        log_file:write("sent" .. message .. '\n')
+        log_file:flush()
+      end
       -- vim.api.nvim_put(data, "l", true, true)
       for _, response_str in ipairs(data) do
         print("local response " .. response_str)
